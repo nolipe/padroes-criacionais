@@ -1,12 +1,51 @@
-# Factory Method
+🏭 Padrão de Projeto: Factory Method
 
-**Factory Method:**
+📚 O que é?
 
-A intenção do Factory Method é delegar a criação de objetos para subclasses, ao invés de instanciar diretamente no código com `new`. Dessa forma, o código fica mais flexível, desacoplado e preparado para futuras mudanças ou expansões.
-Além disso, o uso desse padrão melhora a organização e o encapsulamento, pois o código principal não precisa conhecer os detalhes das classes concretas que estão sendo criadas.
+Padrão de projeto criacional que define um método para criar objetos,
+permitindo que as subclasses escolham qual classe concreta será instanciada.
 
+Evita que o código cliente fique responsável por instanciar objetos diretamente.
 
-**Como ele faz isso?**
+💡 Problema sem Factory Method
+O código cliente precisa conhecer as classes concretas e decidir qual objeto criar, gerando acoplamento e dificuldade de manutenção.
 
-O Factory Method funciona ao criar uma **classe abstrata ou interface** que define um método para criar objetos. As subclasses concretas implementam esse método, decidindo qual objeto exatamente será criado.
-Dessa forma, o código principal só chama o método da fábrica e recebe o objeto pronto, sem precisar saber o que está sendo instanciado diretamente.
+```typescript
+if (tipo === "cartao") {
+  pagamento = new PagamentoCartao();
+} else if (tipo === "boleto") {
+  pagamento = new PagamentoBoleto();
+}
+```
+✅ Solução com Factory Method
+Centraliza a criação dos objetos em um método especializado, deixando o código cliente desacoplado.
+
+```typescript
+abstract class PagamentoFactory {
+  abstract criarPagamento(): Pagamento;
+}
+
+class PagamentoCartaoFactory extends PagamentoFactory {
+  criarPagamento(): Pagamento {
+    return new PagamentoCartao();
+  }
+}
+```
+O código cliente só usa o método de criação e não precisa conhecer as classes concretas.
+
+🎯 Quando Usar
+
+✔ Quando o sistema precisa ser flexível e fácil de expandir;
+
+✔ Quando há variação no tipo de objeto a ser criado;
+
+✔ Quando queremos deixar o código mais organizado e desacoplado.
+
+⚠️ Atenção
+
+⚡ Pode gerar complexidade desnecessária em projetos simples;
+
+⚡ Exige mais classes no sistema.
+
+🧠 Resumo
+O Factory Method melhora a organização e flexibilidade do código, evitando que o cliente precise se preocupar com a criação de objetos concretos.
